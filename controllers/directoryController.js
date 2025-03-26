@@ -23,8 +23,8 @@ export const getDirectories = (req, res) => {
     });
 };
 
-// Search files by extension
-export const searchFiles = (req, res) => {
+// Get files by extension
+export const getFilesByExtension = (req, res) => {
     const networkPath = req.query.path;
     const extension = req.query.extension;
 

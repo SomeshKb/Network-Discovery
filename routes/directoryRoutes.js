@@ -1,16 +1,15 @@
 import express from 'express';
 import {
     getDirectories,
-    searchFiles,
+    getFilesByExtension,
     mountDirectory,
     unmountDirectory,
-} from '../controllers/networkController.js';
+} from '../controllers/directoryController.js';
 
 const router = express.Router();
 
-// Define routes and map them to controller functions
-router.get('/directories', getDirectories);
-router.get('/search-files', searchFiles);
+router.get('/', getDirectories);
+router.get('/files', getFilesByExtension);
 router.post('/mount', mountDirectory);
 router.post('/unmount', unmountDirectory);
 
