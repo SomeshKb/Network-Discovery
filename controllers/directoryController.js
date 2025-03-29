@@ -1,17 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
+import { STATUS_CODES } from '../utils/statusCodes.js';
+import { STATUS_MESSAGES } from '../utils/statusMessages.js';
 
-// Fetch directories
 export const getDirectories = (req, res) => {
     const networkPath = req.query.path;
     if (!networkPath) {
-        return res.status(400).send('Path is required');
+        return res.status(STATUS_CODES.BAD_REQUEST).send(STATUS_MESSAGES.PATH_REQUIRED);
     }
 
     fs.readdir(networkPath, { withFileTypes: true }, (err, files) => {
         if (err) {
-            return res.status(500).send(`Error reading directory: ${err.message}`);
+            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).send(`${STATUS_MESSAGES.ERROR_READING_DIRECTORY} ${err.message}`);
         }
 
         const items = files.map((file) => ({
@@ -23,62 +24,59 @@ export const getDirectories = (req, res) => {
     });
 };
 
-// Get files by extension
 export const getFilesByExtension = (req, res) => {
     const networkPath = req.query.path;
     const extension = req.query.extension;
 
     if (!networkPath || !extension) {
-        return res.status(400).send('Path and extension are required');
+        return res.status(STATUS_CODES.BAD_REQUEST).send(STATUS_MESSAGES.PATH_AND_EXTENSION_REQUIRED);
     }
 
     fs.readdir(networkPath, { withFileTypes: true }, (err, files) => {
         if (err) {
-            return res.status(500).send(`Error reading directory: ${err.message}`);
+            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).send(`${STATUS_MESSAGES.ERROR_READING_DIRECTORY} ${err.message}`);
         }
 
         const matchingFiles = files
-            .filter((file) => file.isFile() && path.extname(file.name) === `.${extension}`)
+            .filter((file) => file.isFile() && path.extname(file.name).slice(1) === extension)
             .map((file) => file.name);
 
         res.json(matchingFiles);
     });
 };
 
-// Mount a network directory
 export const mountDirectory = (req, res) => {
     const { networkPath, username, password, mountPoint } = req.body;
 
     if (!networkPath || !username || !password || !mountPoint) {
-        return res.status(400).send('networkPath, username, password, and mountPoint are required');
+        return res.status(STATUS_CODES.BAD_REQUEST).send(STATUS_MESSAGES.NETWORK_PATH_REQUIRED);
     }
 
     const command = `sudo mount -t cifs ${networkPath} ${mountPoint} -o username=${username},password=${password}`;
 
     exec(command, (err, stdout, stderr) => {
         if (err) {
-            return res.status(500).send(`Error mounting directory: ${stderr || err.message}`);
+            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).send(`${STATUS_MESSAGES.ERROR_MOUNTING_DIRECTORY} ${stderr || err.message}`);
         }
 
-        res.send(`Successfully mounted ${networkPath} to ${mountPoint}`);
+        res.send(`${STATUS_MESSAGES.SUCCESSFULLY_MOUNTED} ${networkPath} to ${mountPoint}`);
     });
 };
 
-// Unmount a network directory
 export const unmountDirectory = (req, res) => {
     const { mountPoint } = req.body;
 
     if (!mountPoint) {
-        return res.status(400).send('mountPoint is required');
+        return res.status(STATUS_CODES.BAD_REQUEST).send(STATUS_MESSAGES.MOUNT_POINT_REQUIRED);
     }
 
     const command = `sudo umount ${mountPoint}`;
 
     exec(command, (err, stdout, stderr) => {
         if (err) {
-            return res.status(500).send(`Error unmounting directory: ${stderr || err.message}`);
+            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).send(`${STATUS_MESSAGES.ERROR_UNMOUNTING_DIRECTORY} ${stderr || err.message}`);
         }
 
-        res.send(`Successfully unmounted ${mountPoint}`);
+        res.send(`${STATUS_MESSAGES.SUCCESSFULLY_UNMOUNTED} ${mountPoint}`);
     });
 };
