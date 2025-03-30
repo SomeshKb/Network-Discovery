@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { STATUS_MESSAGES } from '../../utils/statusMessages';
+import { STATUS_MESSAGES } from '../../utils/statusMessages.js';
 
 export const validateDeleteFirmware = [
     body('filePath')
