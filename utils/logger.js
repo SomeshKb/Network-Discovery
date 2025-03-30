@@ -1,7 +1,7 @@
 import winston from 'winston';
 
 const logger = winston.createLogger({
-    level: 'info',
+    level: 'warn',
     format: winston.format.combine(
         winston.format.timestamp(), // Add timestamps to logs
         winston.format.json() // Log in JSON format
@@ -18,8 +18,8 @@ if (process.env.NODE_ENV === 'development') {
     logger.add(
         new winston.transports.Console({
             format: winston.format.combine(
-                winston.format.colorize(), // Colorize logs for better readability
-                winston.format.simple() // Simple log format
+                winston.format.colorize(),
+                winston.format.simple()
             ),
         })
     );
