@@ -16,7 +16,6 @@ export const STATUS_MESSAGES = {
     PATH_MUST_BE_STRING: 'Path must be a string.',
     EXTENSION_REQUIRED: 'Extension is required.',
     EXTENSION_MUST_BE_STRING: 'Extension must be a string.',
-    NETWORK_PATH_REQUIRED: 'Network path is required.',
     NETWORK_PATH_MUST_BE_STRING: 'Network path must be a string.',
     USERNAME_REQUIRED: 'Username is required.',
     USERNAME_MUST_BE_STRING: 'Username must be a string.',
