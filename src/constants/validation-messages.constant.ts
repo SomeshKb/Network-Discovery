@@ -7,4 +7,5 @@ export const VALIDATION_MESSAGES = {
     USERNAME_REQUIRED: 'Username is required',
     PASSWORD_REQUIRED: 'Password is required',
     MOUNT_POINT_REQUIRED: 'Mount point is required',
+    NETWORK_PATH_REQUIRED: 'Network path is required',
 };
