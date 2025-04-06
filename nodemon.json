@@ -1,6 +1,6 @@
 {
-    "watch": ["**"],
-    "ext": "ts,json",
-    "ignore": ["src/**/*.test.ts"],
-    "exec": "npx webpack --config webpack.config.mjs && node dist/bundle.js"
+  "watch": ["**"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.test.ts"],
+  "exec": "npx webpack --config webpack.config.mjs && node dist/bundle.js"
 }
