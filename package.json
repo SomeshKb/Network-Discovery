@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon dist/bundle.js",
+    "dev": "nodemon dist/index.js",
     "start": "npm run build && node dist/index.js",
     "test": "jest --config jest.config.cjs",
     "build": "npx webpack --config webpack.config.mjs",
