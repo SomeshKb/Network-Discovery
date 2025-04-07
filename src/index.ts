@@ -3,7 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { CONFIG } from './config/config';
 import { errorHandler } from './middlewares/error-handler.middleware';
-import routes from './routes/loader';
+import routes from './routes/routes';
 
 const app: Application = express();
 const PORT: number = parseInt(CONFIG.PORT as string);
